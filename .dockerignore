@@ -3,3 +3,11 @@ node_modules
 out
 .git
 .github
+.claude
+.env
+.env.*
+*.md
+Dockerfile
+.dockerignore
+docker-compose*.yml
+deploy.sh

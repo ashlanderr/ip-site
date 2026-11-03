@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - default
+      - proxy
+    labels:
+      caddy: ${DOMAIN_NAME:?}
+      caddy.reverse_proxy: "{{upstreams 80}}"
+      caddy.encode: gzip zstd
+
+networks:
+  proxy:
+    external: true
+    name: proxy

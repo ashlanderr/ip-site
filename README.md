@@ -1,6 +1,7 @@
 # Сайт ИП Шилов А. А.
 
 Статический сайт для приёма оплаты от физлиц через Т-Кассу (ссылки на оплату из личного кабинета).
+Адрес: https://ip.ashlanderr.ru
 
 Все реквизиты, контакты, ставка и сроки — в [src/site.config.ts](src/site.config.ts).
 
@@ -19,22 +20,24 @@ npm ci
 npm run build   # статический сайт в out/
 ```
 
-Docker (nginx):
+## Deployment
+
+The site is deployed with Docker to a server shared with other projects: one
+`docker-compose.proxy.yml` and `deploy.sh` are shared between projects — keep them identical.
 
 ```bash
-docker build -t ie-site .
-docker run -p 8080:80 ie-site
+./deploy.sh prod
 ```
 
-## GitHub Pages
+Push to `main` deploys via GitHub Actions (secrets `DOTENV_KEYS` — contents of `.env.keys`,
+and `DEPLOY_SSH_KEY`). Variables live in `.env.prod`; the project has no secrets, so nothing in it
+is encrypted with [dotenvx](https://dotenvx.com).
 
-Workflow `.github/workflows/pages.yml` публикует `out/` при пуше в `main`.
-В настройках репозитория: Settings → Pages → Source: GitHub Actions.
-Домен задан в `public/CNAME` (`ashlanderr.ru`); у регистратора нужны A-записи на IP GitHub Pages
-(185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153) и включённый HTTPS.
+DNS: A-record `ip.ashlanderr.ru` → server IP (same as `time.ashlanderr.ru`). Caddy issues the
+HTTPS certificate automatically on first request.
 
 ## Подключение Т-Кассы
 
-1. Т-Бизнес → Касса → подать заявку на интернет-эквайринг, указать сайт `https://ashlanderr.ru`.
+1. Т-Бизнес → Касса → подать заявку на интернет-эквайринг, указать сайт `https://ip.ashlanderr.ru`.
 2. Подключить онлайн-кассу (чеки) от Т-Кассы и убедиться, что она настроена на АУСН.
 3. После одобрения создавать ссылки на оплату в кабинете Т-Кассы на итоговую сумму и отправлять клиенту.
