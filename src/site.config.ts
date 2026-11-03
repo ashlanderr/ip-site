@@ -26,7 +26,7 @@ export const site = {
 
   cvUrl: "https://ashlanderr.github.io/cv/",
   githubUrl: "https://github.com/ashlanderr",
-  domain: "ashlanderr.ru",
+  domain: "ip.ashlanderr.ru",
 
   hourlyRate: 1500,
   // Сколько рабочих дней у заказчика на проверку результата и на оплату
